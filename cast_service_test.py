@@ -1,6 +1,9 @@
+from fastapi.testclient import TestClient
 from app.main import app
 from app.api.models import CastIn, CastOut, CastUpdate
 
+
+client = TestClient(app)
 
 cast_data = {
     'name': 'Name',
