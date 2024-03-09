@@ -17,7 +17,7 @@ jobs:
           docker build . --file Dockerfile --tag ${{secrets.DOCKER_USERNAME}}/cast-service:latest
       - name: Run tests
         run: |
-          pytest cast_service_test.py
+          pytest test_cast_service.py
 
   build-and-push:
     runs-on: ubuntu-latest
