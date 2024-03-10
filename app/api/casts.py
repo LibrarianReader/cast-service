@@ -17,9 +17,7 @@ async def create_cast(payload: CastIn):
 
     return response
 
-@casts.get('/{id}/', response_model=CastOut) #localhost:8002/api/v1/casts/1
-async def get_cast(id: int):
-    cast = await db_manager.get_cast(id)
-    if not cast:
-        raise HTTPException(status_code=404, detail="Cast not found")
-    return cast
+
+@casts.get('/', response_model=List[CastOut]) #localhost:8001/api/v1/animes
+async def get_casts():
+    return await db_manager.get_all_cast()

@@ -8,3 +8,4 @@ pytest
 httptools
 anyio
 loki_handler
+psycopg2-binary
