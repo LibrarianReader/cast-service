@@ -7,3 +7,4 @@ httpx
 pytest
 httptools
 anyio
+loki_handler
