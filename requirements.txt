@@ -8,4 +8,9 @@ pytest
 httptools
 anyio
 loki_handler
+python-keycloak
 psycopg2-binary
+requests
+python-multipart
+jsonify
+itsdangerous
