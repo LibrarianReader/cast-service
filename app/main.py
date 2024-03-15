@@ -1,5 +1,3 @@
-
-
 import httpx
 from fastapi import FastAPI, Form
 from fastapi.requests import Request
@@ -20,9 +18,9 @@ app = FastAPI(openapi_url="/api/v1/casts/openapi.json", docs_url="/api/v1/casts/
 
 
 KEYCLOAK_URL = "http://keycloak:8080/"
-KEYCLOAK_CLIENT_ID = "test"
-KEYCLOAK_REALM = "cast-service_realm"
-KEYCLOAK_CLIENT_SECRET = "iDqqWt2vn43v8kdDDOF13mVwlG6X9egP"
+KEYCLOAK_CLIENT_ID = "testClient"
+KEYCLOAK_REALM = "testRealm"
+KEYCLOAK_CLIENT_SECRET = "EdmZe7tMZHjnvl6Fyg4wiQnVxy8omyi2"
 
 user_token = ""
 keycloak_openid = KeycloakOpenID(server_url=KEYCLOAK_URL,
@@ -30,13 +28,9 @@ keycloak_openid = KeycloakOpenID(server_url=KEYCLOAK_URL,
                                   realm_name=KEYCLOAK_REALM,
                                   client_secret_key=KEYCLOAK_CLIENT_SECRET)
 
-###########
-
-
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
     try:
-        # Получение токена
         token = keycloak_openid.token(grant_type=["password"],
                                       username=username,
                                       password=password)
@@ -44,14 +38,13 @@ async def login(username: str = Form(...), password: str = Form(...)):
         user_token = token
         return token
     except Exception as e:
-        print(e)  # Логирование для диагностики
+        print(e)
         raise HTTPException(status_code=400, detail="Не удалось получить токен")
 
 def user_got_role():
     global user_token
     token = user_token
     try:
-        userinfo = keycloak_openid.userinfo(token["access_token"])
         token_info = keycloak_openid.introspect(token["access_token"])
         if "testRole" not in token_info["realm_access"]["roles"]:
             raise HTTPException(status_code=403, detail="Access denied")
